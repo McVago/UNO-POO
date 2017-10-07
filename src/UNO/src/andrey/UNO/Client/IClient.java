@@ -15,6 +15,6 @@ import java.rmi.RemoteException;
  */
 public interface IClient extends Remote {
     
-    public void retrieveCard(Card card) throws RemoteException;
+    public void retrieveCard(String color, String value) throws RemoteException;
     
 }

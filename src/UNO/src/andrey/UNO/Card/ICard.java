@@ -14,4 +14,8 @@ import java.rmi.RemoteException;
  */
 public interface ICard extends Remote {
     
+    public void createCards() throws RemoteException;
+    
+    public ICard getCard() throws RemoteException;
+    
 }

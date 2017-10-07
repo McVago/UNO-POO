@@ -17,10 +17,6 @@ public interface IServer extends Remote {
     
     public void registerClient(IClient client) throws RemoteException;
     
-    public void broadcastCard(Card card) throws RemoteException; 
-    
-    public Card getCard() throws RemoteException;
-    
-    public void gameStart() throws RemoteException;
+    public void broadcastCard(String color, String value) throws RemoteException;
     
 }

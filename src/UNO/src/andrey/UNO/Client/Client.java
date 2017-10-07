@@ -19,32 +19,35 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     
     private static final long serialVersionUID = 1L;
     IServer server;
-    private ArrayList<Card> deck;
+    Card card = new Card("blue", "0");
+    private ArrayList<Card> deck = new ArrayList<>();;
     
     protected Client(IServer server) throws RemoteException{
-        this.server = server;
+
+        card.createCards();
+        this.server = server;        
+        
+        for(int i = 0; i < 7; i++){ 
+            deck.add(this.card.getCard());
+            System.out.println(deck.get(i).value + " " + deck.get(i).color);
+        }
+        
+        register();
+    }
+    
+    private void register() throws RemoteException {
         server.registerClient(this);
-        deck = new ArrayList<Card>();
     }
 
     
-    public void retrieveCard(Card card) throws RemoteException {
-        System.out.println("La ultima carta jugada es: " + card.color + " " + card.value);
+    public void retrieveCard(String color, String value) throws RemoteException {
+        System.out.println("La ultima carta jugada es: " + color + " " + value);
     }
 
     public void run() {
         try{
             
-            for(int i = 0; i < 7; i++){
-                Card c = server.getCard();
-                deck.add(c);
-            }
-            
-            int i = 0;
-            while(i < 3){
-                System.out.println(deck.get(i).value + " " + deck.get(i++).color);
-                i++;
-            }
+            System.out.println("Connected;");
             
         }catch(Exception e){e.printStackTrace();}
     }
