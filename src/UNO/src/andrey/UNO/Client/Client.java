@@ -36,19 +36,23 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
         register();
     }
     
+    //Registers the client into the server
     private void register() throws RemoteException {
         server.registerClient(this);
     }
 
     
+    //Shows the last card played
     public void retrieveCard(String color, String value) throws RemoteException {
         System.out.println("La ultima carta jugada es: " + color + " " + value);
     }
     
+    //Set unique ID for each client
     public void setID(int ID) throws RemoteException {
         this.ID = ID;
     }
     
+    //Tests the card to see if it is a valid move
     public boolean sendCard(String color, String value, int clientID) throws RemoteException {
         boolean test = server.testCard(color, value, this.ID);
         //System.out.println("El test fue: " + test);
@@ -66,16 +70,19 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
         return false;
     }
     
+    //Recieve messages from the server (It is not your turn, Your card is not a valid move)
     public void receiveMessage(String message) throws RemoteException {
         System.out.println(message);
     }
     
+    //Add two cards to the deck
     public void get2() throws RemoteException {
         deck.add(card.getCard());
         deck.add(card.getCard());
         this.printCards();
     }
     
+    //Add a card to the deck
     private void getnewCard() throws RemoteException {
         deck.add(card.getCard());
         this.printCards();
@@ -87,6 +94,7 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
         }
     }
 
+    //Run the thread for the clients
     public void run() {
         try{
             System.out.println("\nConnected, your ID is: " + ID + "\n");
@@ -113,6 +121,5 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
                 }catch(Exception e) {e.printStackTrace();}
             }
         }catch(Exception e){e.printStackTrace();}
-    }
-    
+    } 
 }

@@ -32,12 +32,14 @@ public class Server extends UnicastRemoteObject implements IServer {
         System.out.println(lastCard.color + lastCard.value);
     }
     
+    //Register client into the arraylist clients and sets unique ID
     public synchronized void registerClient(IClient client) throws RemoteException {
         this.clients.add(client);
         client.setID(newID++);
         broadcastCard(lastCard.color, lastCard.value);
     }
     
+    //Show last card played to all clients
     public void broadcastCard(String color, String value) throws RemoteException {
         int i = 0;
         while(i < clients.size()){
