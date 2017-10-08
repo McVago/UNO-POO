@@ -10,6 +10,7 @@ import andrey.UNO.Server.IServer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -50,10 +51,11 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     
     public boolean sendCard(String color, String value, int clientID) throws RemoteException {
         boolean test = server.testCard(color, value, this.ID);
+        //System.out.println("El test fue: " + test);
         if(test){
             int i = 0;
             while(i < deck.size()){
-                if(color == deck.get(i).color && value == deck.get(i).value){
+                if(Objects.equals(color, deck.get(i).color) && Objects.equals(value, deck.get(i).value)){
                     deck.remove(i);
                     break;
                 }
@@ -71,10 +73,12 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     public void get2() throws RemoteException {
         deck.add(card.getCard());
         deck.add(card.getCard());
+        this.printCards();
     }
     
     private void getnewCard() throws RemoteException {
         deck.add(card.getCard());
+        this.printCards();
     }
     
     public void printCards(){
@@ -91,14 +95,19 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
             String value;
             while(true) {
                 try {
+                    System.out.println("Color:");
                     color = scanner.nextLine();
+                    System.out.println("Value:");
                     value = scanner.nextLine();
-                    if(color == "q" || value == "q")
+                    if(Objects.equals(color, "q") || Objects.equals(value, "q")){
                         this.getnewCard();
-                    else if(color == "w" || value == "w")
+                    }
+                    else if(Objects.equals(color, "w") || Objects.equals(value, "w")){
                         server.skipTurn();
-                    else
+                    }
+                    else{
                         this.sendCard(color, value, this.ID);
+                    }
                     this.printCards();
                     
                 }catch(Exception e) {e.printStackTrace();}

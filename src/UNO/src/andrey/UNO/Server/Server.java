@@ -10,6 +10,7 @@ import andrey.UNO.Client.IClient;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -47,23 +48,32 @@ public class Server extends UnicastRemoteObject implements IServer {
     
    // Tests card, if it is a valid move, if reverse, if skip, if +2, if +4 
     public synchronized boolean testCard(String color, String value, int clientID) throws RemoteException {
+        System.out.println(color + " " + value + " " + clientID);
         if(reverse)
             this.testCardReverse(color, value, clientID);
         if(clientID == clientTurnId){
-            if(color == lastCard.color || value == lastCard.value){
+            System.out.println("Se concede el turno a la persona");
+            if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value)){
+                System.out.println("La carta fue valida");
                 lastCard.color = color;
                 lastCard.value = value;
-                if(value == "reverse")
+                if(Objects.equals(value, "reverse")){
                     this.reverse = !reverse;
-                if(value == "skip"){
+                    clientTurnId--;
+                    if(clientTurnId < 1){
+                        clientTurnId = clients.size();
+                    }
+                    return true;
+                }
+                if(Objects.equals(value, "skip")){
                     clientTurnId++;
                 }
-                if(value == "+2"){
+                if(Objects.equals(value, "+2")){
                     boolean done = false;
                     int i = 1;
-                    while(i < clients.size()){
+                    while(i <= clients.size()){
                         if(i == clientID+1){
-                            clients.get(i).get2();
+                            clients.get(i-1).get2();
                             done = true;
                             break;
                         }
@@ -73,13 +83,13 @@ public class Server extends UnicastRemoteObject implements IServer {
                         clients.get(0).get2();
                     }
                 }
-                if(value == "+4"){
+                if(Objects.equals(value, "+4")){
                     boolean done = false;
                     int i = 1;
-                    while(i < clients.size()){
+                    while(i <= clients.size()){
                         if(i == clientID+1){
-                            clients.get(i).get2();
-                            clients.get(i).get2();
+                            clients.get(i-1).get2();
+                            clients.get(i-1).get2();
                             done = true;
                             break;
                         }
@@ -94,12 +104,13 @@ public class Server extends UnicastRemoteObject implements IServer {
                 if(clientTurnId > clients.size()){
                     clientTurnId = 1;
                 }
+                this.broadcastCard(lastCard.color, lastCard.value);
                 return true;
             }else{
                 int i = 1;
-                while(i < clients.size()){
+                while(i <= clients.size()){
                     if(i == clientID){
-                        clients.get(i).receiveMessage("Su carta no es valida");
+                        clients.get(i-1).receiveMessage("Su carta no es valida");
                         break;
                     }
                     i++;
@@ -108,9 +119,9 @@ public class Server extends UnicastRemoteObject implements IServer {
             }
         }else{
             int i = 1;
-            while(i < clients.size()){
+            while(i <= clients.size()){
                 if(i == clientID){
-                    clients.get(i).receiveMessage("No es su turno");
+                    clients.get(i-1).receiveMessage("No es su turno");
                     break;
                 }
                 i++;
@@ -121,21 +132,27 @@ public class Server extends UnicastRemoteObject implements IServer {
     
     // When reverse is active tests cards with this function
     public synchronized boolean testCardReverse(String color, String value, int clientID) throws RemoteException {
-        if(clientID == clientTurnId){
-            if(color == lastCard.color || value == lastCard.value){
+        if(clientID == this.clientTurnId){
+            if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value)){
                 lastCard.color = color;
                 lastCard.value = value;
-                if(value == "reverse")
+                if(Objects.equals(value, "reverse")){
                     this.reverse = !reverse;
-                if(value == "skip"){
+                    clientTurnId++;
+                    if(clientTurnId > clients.size()){
+                        clientTurnId = 1;
+                    }
+                    return true;
+                }
+                if(Objects.equals(value, "skip")){
                     clientTurnId--;
                 }
-                if(value == "+2"){
+                if(Objects.equals(value, "+2")){
                     boolean done = false;
                     int i = 1;
-                    while(i < clients.size()){
+                    while(i <= clients.size()){
                         if(i == clientID-1){
-                            clients.get(i).get2();
+                            clients.get(i-1).get2();
                             done = true;
                             break;
                         }
@@ -145,13 +162,13 @@ public class Server extends UnicastRemoteObject implements IServer {
                         clients.get(clients.size()-1).get2();
                     }
                 }
-                if(value == "+4"){
+                if(Objects.equals(value, "+4")){
                     boolean done = false;
                     int i = 1;
-                    while(i < clients.size()){
+                    while(i <= clients.size()){
                         if(i == clientID+1){
-                            clients.get(i).get2();
-                            clients.get(i).get2();
+                            clients.get(i-1).get2();
+                            clients.get(i-1).get2();
                             done = true;
                             break;
                         }
@@ -170,9 +187,9 @@ public class Server extends UnicastRemoteObject implements IServer {
                 return true;
             }else{
                 int i = 1;
-                while(i < clients.size()){
+                while(i <= clients.size()){
                     if(i == clientID){
-                        clients.get(i).receiveMessage("Su carta no es valida");
+                        clients.get(i-1).receiveMessage("Su carta no es valida");
                         break;
                     }
                     i++;
@@ -181,9 +198,9 @@ public class Server extends UnicastRemoteObject implements IServer {
             }
         }else{
             int i = 1;
-            while(i < clients.size()){
+            while(i <= clients.size()){
                 if(i == clientID){
-                    clients.get(i).receiveMessage("No es su turno");
+                    clients.get(i-1).receiveMessage("No es su turno");
                     break;
                 }
                 i++;
@@ -192,10 +209,12 @@ public class Server extends UnicastRemoteObject implements IServer {
         }
     }
     
+    //To skip the client's turn
     public void skipTurn() throws RemoteException {
         if(!reverse)
             this.clientTurnId++;
         else
             this.clientTurnId--;
+        System.out.println("Turno saltado, turno actual del cliente: " + clientTurnId);
     }
 }
