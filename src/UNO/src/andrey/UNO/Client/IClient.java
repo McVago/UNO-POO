@@ -16,6 +16,8 @@ public interface IClient extends Remote {
     
     public void retrieveCard(String color, String value) throws RemoteException;
     
+    public void retrieveDeckCount(int playerID, int cardsLeft) throws RemoteException;
+    
     public void setID(int ID) throws RemoteException;
     
     public void receiveMessage(String message) throws RemoteException;

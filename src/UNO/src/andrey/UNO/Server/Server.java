@@ -23,6 +23,7 @@ public class Server extends UnicastRemoteObject implements IServer {
     public Card lastCard = new Card("blue", "0"); //Creates a new card to acces card's methods
     private int newID = 1; //Assigns this value to new clients (starts -> 1)
     private int clientTurnId = 1; //Client's turn (first in first move)
+    private int lastPlayerID = 0;
     private boolean reverse = false; //To check the reverse card status
     
     protected Server() throws RemoteException {
@@ -47,6 +48,14 @@ public class Server extends UnicastRemoteObject implements IServer {
         }
     }
     
+    //Show the 
+    public void broadcastDeckCount(int cardsLeft) throws RemoteException { 
+        int i = 0;
+        while(i < clients.size()){
+            clients.get(i++).retrieveDeckCount(lastPlayerID, cardsLeft);
+        }
+    }
+    
     
    // Tests card, if it is a valid move, if reverse, if skip, if +2, if +4 
     public synchronized boolean testCard(String color, String value, int clientID) throws RemoteException {
@@ -55,7 +64,8 @@ public class Server extends UnicastRemoteObject implements IServer {
             this.testCardReverse(color, value, clientID);
         if(clientID == clientTurnId){
             System.out.println("Se concede el turno a la persona");
-            if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value)){
+            this.lastPlayerID = clientTurnId;
+            if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value) || Objects.equals(value, "+4") || Objects.equals(value, "colorchange")){
                 System.out.println("La carta fue valida");
                 lastCard.color = color;
                 lastCard.value = value;
@@ -135,6 +145,7 @@ public class Server extends UnicastRemoteObject implements IServer {
     // When reverse is active tests cards with this function
     public synchronized boolean testCardReverse(String color, String value, int clientID) throws RemoteException {
         if(clientID == this.clientTurnId){
+            this.lastPlayerID = clientTurnId;
             if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value)){
                 lastCard.color = color;
                 lastCard.value = value;

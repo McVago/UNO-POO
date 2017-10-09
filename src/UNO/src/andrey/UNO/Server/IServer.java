@@ -18,6 +18,8 @@ public interface IServer extends Remote {
     
     public void broadcastCard(String color, String value) throws RemoteException;
     
+    public void broadcastDeckCount(int cardsLeft) throws RemoteException;
+    
     public boolean testCard(String color, String value, int clientID) throws RemoteException;
     
     public void skipTurn() throws RemoteException;

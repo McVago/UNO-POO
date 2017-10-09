@@ -90,7 +90,7 @@ public class Card extends UnicastRemoteObject implements ICard {
             }
         }
         
-        Card c = (Card)new Card("black", "color");
+        Card c = (Card)new Card("black", "colorchange");
         cards.add(c);
         
         c = (Card)new Card("black", "+4");

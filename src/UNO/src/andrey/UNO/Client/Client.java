@@ -47,6 +47,13 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
         System.out.println("La ultima carta jugada es: " + color + " " + value);
     }
     
+    public void retrieveDeckCount(int playerID ,int cardsLeft) throws RemoteException {
+        if(cardsLeft == 0){
+            System.out.println("\n\n || Player " + playerID + " has won!! || ");
+        }
+        System.out.println("\n || Player " + playerID + " tiene " + cardsLeft + " restantes || \n");
+    }
+    
     //Set unique ID for each client
     public void setID(int ID) throws RemoteException {
         this.ID = ID;
@@ -65,6 +72,7 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
                 }
                 i++;
             }
+            server.broadcastDeckCount(deck.size());
             return true;
         }
         return false;
@@ -89,9 +97,11 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     }
     
     public void printCards(){
+        System.out.println("\n Your Cards: ");
         for(int i = 0; i < deck.size(); i++){
             System.out.println(deck.get(i).value + " " + deck.get(i).color);
         }
+        System.out.println("\n");
     }
 
     //Run the thread for the clients
@@ -103,6 +113,10 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
             String value;
             while(true) {
                 try {
+                    if(deck.size() == 0){
+                        System.out.println("\n\n || YOU WON!! ||\n\n");
+                        break;
+                    }
                     System.out.println("Color:");
                     color = scanner.nextLine();
                     System.out.println("Value:");
