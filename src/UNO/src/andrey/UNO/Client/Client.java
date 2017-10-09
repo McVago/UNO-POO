@@ -24,6 +24,7 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     Card card = new Card("blue", "0"); //Creates a new card to access the card's methods
     private ArrayList<Card> deck = new ArrayList<>(); //Client's deck
     public int ID = 0; //Unique ID for turns
+    private boolean playerWON = false;
     
     
     protected Client(IServer server) throws RemoteException{
@@ -50,6 +51,7 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     public void retrieveDeckCount(int playerID ,int cardsLeft) throws RemoteException {
         if(cardsLeft == 0){
             System.out.println("\n\n || Player " + playerID + " has won!! || ");
+            playerWON = true;
         }
         System.out.println("\n || Player " + playerID + " tiene " + cardsLeft + " restantes || \n");
     }
@@ -66,9 +68,16 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
         if(test){
             int i = 0;
             while(i < deck.size()){
-                if(Objects.equals(color, deck.get(i).color) && Objects.equals(value, deck.get(i).value)){
-                    deck.remove(i);
-                    break;
+                if(Objects.equals(value, "+4") || Objects.equals(value, "colorchange")){
+                    if(Objects.equals(value, deck.get(i).value)){
+                        deck.remove(i);
+                        break;
+                    }
+                }else{
+                    if(Objects.equals(color, deck.get(i).color) && Objects.equals(value, deck.get(i).value)){
+                        deck.remove(i);
+                        break;
+                    }
                 }
                 i++;
             }
@@ -111,11 +120,10 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
             Scanner scanner = new Scanner(System.in);
             String color;
             String value;
-            while(true) {
+            while(!playerWON) {
                 try {
                     if(deck.size() == 0){
                         System.out.println("\n\n || YOU WON!! ||\n\n");
-                        break;
                     }
                     System.out.println("Color:");
                     color = scanner.nextLine();
