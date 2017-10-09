@@ -45,7 +45,7 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     
     //Shows the last card played
     public void retrieveCard(String color, String value) throws RemoteException {
-        System.out.println("La ultima carta jugada es: " + color + " " + value);
+        System.out.println("\n----------------> La ultima carta jugada es: || " + color + " || " + value + " ||\n");
     }
     
     public void retrieveDeckCount(int playerID ,int cardsLeft) throws RemoteException {
@@ -82,6 +82,8 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
                 i++;
             }
             server.broadcastDeckCount(deck.size());
+            if(deck.size() == 0)
+                playerWON = true;
             return true;
         }
         return false;

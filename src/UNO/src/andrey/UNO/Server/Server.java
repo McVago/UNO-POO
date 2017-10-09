@@ -48,7 +48,7 @@ public class Server extends UnicastRemoteObject implements IServer {
         }
     }
     
-    //Show the 
+    //Show the last player cards left
     public void broadcastDeckCount(int cardsLeft) throws RemoteException { 
         int i = 0;
         while(i < clients.size()){
@@ -56,89 +56,102 @@ public class Server extends UnicastRemoteObject implements IServer {
         }
     }
     
+    //Show whos turn it is
+    public void broadcastPlayerTurn() throws RemoteException {
+        int i = 0;
+        while(i < clients.size()){
+            clients.get(i++).receiveMessage("\n || Es el turno del Player: " + clientTurnId + " || \n");
+        }
+    }
+    
     
    // Tests card, if it is a valid move, if reverse, if skip, if +2, if +4 
     public synchronized boolean testCard(String color, String value, int clientID) throws RemoteException {
         System.out.println(color + " " + value + " " + clientID);
-        if(reverse)
-            this.testCardReverse(color, value, clientID);
-        if(clientID == clientTurnId){
-            System.out.println("Se concede el turno a la persona");
-            this.lastPlayerID = clientTurnId;
-            if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value) || Objects.equals(value, "+4") || Objects.equals(value, "colorchange")){
-                System.out.println("La carta fue valida");
-                lastCard.color = color;
-                lastCard.value = value;
-                if(Objects.equals(value, "reverse")){
-                    this.reverse = !reverse;
-                    clientTurnId--;
-                    if(clientTurnId < 1){
-                        clientTurnId = clients.size();
+        if(reverse){
+            return this.testCardReverse(color, value, clientID);
+        }else{
+            if(clientID == clientTurnId){
+                System.out.println("Se concede el turno a la persona");
+                this.lastPlayerID = clientTurnId;
+                if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value) || Objects.equals(value, "+4") || Objects.equals(value, "colorchange")){
+                    System.out.println("La carta fue valida");
+                    lastCard.color = color;
+                    lastCard.value = value;
+                    if(Objects.equals(value, "reverse")){
+                        this.reverse = !reverse;
+                        clientTurnId--;
+                        if(clientTurnId < 1){
+                            clientTurnId = clients.size();
+                        }
+                        this.broadcastPlayerTurn();
+                        this.broadcastCard(lastCard.color, lastCard.value);
+                        return true;
                     }
-                    return true;
-                }
-                if(Objects.equals(value, "skip")){
+                    if(Objects.equals(value, "skip")){
+                        clientTurnId++;
+                    }
+                    if(Objects.equals(value, "+2")){
+                        boolean done = false;
+                        int i = 1;
+                        while(i <= clients.size()){
+                            if(i == clientID+1){
+                                clients.get(i-1).get2();
+                                done = true;
+                                break;
+                            }
+                            i++;
+                        }
+                        if(!done){
+                            clients.get(0).get2();
+                        }
+                    }
+                    if(Objects.equals(value, "+4")){
+                        boolean done = false;
+                        int i = 1;
+                        while(i <= clients.size()){
+                            if(i == clientID+1){
+                                clients.get(i-1).get2();
+                                clients.get(i-1).get2();
+                                done = true;
+                                break;
+                            }
+                            i++;
+                        }
+                        if(!done){
+                            clients.get(0).get2();
+                            clients.get(0).get2();
+                        }
+                    }
                     clientTurnId++;
-                }
-                if(Objects.equals(value, "+2")){
-                    boolean done = false;
+                    if(clientTurnId > clients.size()){
+                        clientTurnId = 1;
+                    }
+                    this.broadcastPlayerTurn();
+                    this.broadcastCard(lastCard.color, lastCard.value);
+                    return true;
+                }else{
                     int i = 1;
                     while(i <= clients.size()){
-                        if(i == clientID+1){
-                            clients.get(i-1).get2();
-                            done = true;
+                        if(i == clientID){
+                            clients.get(i-1).receiveMessage("Su carta no es valida");
                             break;
                         }
                         i++;
                     }
-                    if(!done){
-                        clients.get(0).get2();
-                    }
+                    return false;
                 }
-                if(Objects.equals(value, "+4")){
-                    boolean done = false;
-                    int i = 1;
-                    while(i <= clients.size()){
-                        if(i == clientID+1){
-                            clients.get(i-1).get2();
-                            clients.get(i-1).get2();
-                            done = true;
-                            break;
-                        }
-                        i++;
-                    }
-                    if(!done){
-                        clients.get(0).get2();
-                        clients.get(0).get2();
-                    }
-                }
-                clientTurnId++;
-                if(clientTurnId > clients.size()){
-                    clientTurnId = 1;
-                }
-                this.broadcastCard(lastCard.color, lastCard.value);
-                return true;
             }else{
                 int i = 1;
                 while(i <= clients.size()){
                     if(i == clientID){
-                        clients.get(i-1).receiveMessage("Su carta no es valida");
+                        clients.get(i-1).receiveMessage("No es su turno");
                         break;
                     }
                     i++;
                 }
                 return false;
             }
-        }else{
-            int i = 1;
-            while(i <= clients.size()){
-                if(i == clientID){
-                    clients.get(i-1).receiveMessage("No es su turno");
-                    break;
-                }
-                i++;
-            }
-            return false;
         }
     }
     
@@ -146,7 +159,7 @@ public class Server extends UnicastRemoteObject implements IServer {
     public synchronized boolean testCardReverse(String color, String value, int clientID) throws RemoteException {
         if(clientID == this.clientTurnId){
             this.lastPlayerID = clientTurnId;
-            if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value)){
+            if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value) || Objects.equals(value, "+4") || Objects.equals(value, "colorchange")){
                 lastCard.color = color;
                 lastCard.value = value;
                 if(Objects.equals(value, "reverse")){
@@ -155,6 +168,8 @@ public class Server extends UnicastRemoteObject implements IServer {
                     if(clientTurnId > clients.size()){
                         clientTurnId = 1;
                     }
+                    this.broadcastPlayerTurn();
+                    this.broadcastCard(lastCard.color, lastCard.value);
                     return true;
                 }
                 if(Objects.equals(value, "skip")){
@@ -196,6 +211,7 @@ public class Server extends UnicastRemoteObject implements IServer {
                 if(clientTurnId < 1){
                     clientTurnId = clients.size();
                 }
+                this.broadcastPlayerTurn();
                 this.broadcastCard(lastCard.color, lastCard.value);
                 return true;
             }else{
