@@ -90,6 +90,9 @@ public class Server extends UnicastRemoteObject implements IServer {
                     }
                     if(Objects.equals(value, "skip")){
                         clientTurnId++;
+                        if(clientTurnId > clients.size()){
+                            clientTurnId = 1;
+                        }
                     }
                     if(Objects.equals(value, "+2")){
                         boolean done = false;
@@ -174,6 +177,9 @@ public class Server extends UnicastRemoteObject implements IServer {
                 }
                 if(Objects.equals(value, "skip")){
                     clientTurnId--;
+                    if(clientTurnId < 1){
+                        clientTurnId = clients.size();
+                    }
                 }
                 if(Objects.equals(value, "+2")){
                     boolean done = false;
@@ -240,10 +246,16 @@ public class Server extends UnicastRemoteObject implements IServer {
     
     //To skip the client's turn
     public void skipTurn() throws RemoteException {
-        if(!reverse)
+        if(!reverse){
             this.clientTurnId++;
-        else
+            if(clientTurnId > clients.size())
+                clientTurnId = 1;
+        }
+        else{
             this.clientTurnId--;
+            if(clientTurnId < 1)
+                clientTurnId = clients.size();
+        }
         System.out.println("Turno saltado, turno actual del cliente: " + clientTurnId);
     }
 }
