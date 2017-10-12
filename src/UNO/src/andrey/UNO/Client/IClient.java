@@ -22,6 +22,14 @@ public interface IClient extends Remote {
     
     public void receiveMessage(String message) throws RemoteException;
     
+    public void getnewCard() throws RemoteException;
+    
     public void get2() throws RemoteException;
+    
+    public void skipTurn() throws RemoteException;
+    
+    public void printCards() throws RemoteException;
+    
+    public boolean sendCard(String color, String value) throws RemoteException;
     
 }
