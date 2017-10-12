@@ -9,8 +9,11 @@ package andrey.UNO.Server;
  *
  * @author andrey
  */
-public interface IView {
-    
-    public void enterCommand();
+public interface Action {
+    String DrawFour = "+4";
+    String DrawTwo = "+2";
+    String Skip = "skip";
+    String Reverse = "reverse";
+    String ColorChange = "colorchange";
     
 }

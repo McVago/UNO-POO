@@ -7,6 +7,7 @@ package andrey.UNO.Server;
 
 import andrey.UNO.Card.Card;
 import andrey.UNO.Client.IClient;
+import andrey.UNO.Server.IView;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.Objects;
  *
  * @author torre
  */
-public class Server extends UnicastRemoteObject implements IServer, Runnable {
+public class Server extends UnicastRemoteObject implements IServer, Action {
     
     private static final long serialVersionUID = 1L;
     private ArrayList<IClient> clients; //All registered clients
@@ -25,12 +26,14 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
     private int clientTurnId = 1; //Client's turn (first in first move)
     private int lastPlayerID = 0;
     private boolean reverse = false; //To check the reverse card status
+    private IView view;
     
-    protected Server() throws RemoteException {
+    protected Server(IView view) throws RemoteException {
         clients = new ArrayList<IClient>();
         lastCard.createCards();
         lastCard = lastCard.getCard();
-        System.out.println(lastCard.color + lastCard.value);
+        this.view = view;
+        System.out.println(lastCard.color + " " + lastCard.value);
     }
     
     //Register client into the arraylist clients and sets unique ID
@@ -75,11 +78,11 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
                 if(clientID == clientTurnId){
                     System.out.println("Se concede el turno a la persona");
                     this.lastPlayerID = clientTurnId;
-                    if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value) || Objects.equals(value, "+4") || Objects.equals(value, "colorchange")){
+                    if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value) || Objects.equals(value, Action.DrawFour) || Objects.equals(value, Action.ColorChange)){
                         System.out.println("La carta fue valida");
                         lastCard.color = color;
                         lastCard.value = value;
-                        if(Objects.equals(value, "reverse")){
+                        if(Objects.equals(value, Action.Reverse)){
                             this.reverse = !reverse;
                             clientTurnId--;
                             if(clientTurnId < 1){
@@ -89,13 +92,13 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
                             this.broadcastCard(lastCard.color, lastCard.value);
                             return true;
                         }
-                        if(Objects.equals(value, "skip")){
+                        if(Objects.equals(value, Action.Skip)){
                             clientTurnId++;
                             if(clientTurnId > clients.size()){
                                 clientTurnId = 1;
                             }
                         }
-                        if(Objects.equals(value, "+2")){
+                        if(Objects.equals(value, Action.DrawTwo)){
                             boolean done = false;
                             int i = 1;
                             while(i <= clients.size()){
@@ -110,7 +113,7 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
                                 clients.get(0).get2();
                             }
                         }
-                        if(Objects.equals(value, "+4")){
+                        if(Objects.equals(value, Action.DrawFour)){
                             boolean done = false;
                             int i = 1;
                             while(i <= clients.size()){
@@ -170,7 +173,7 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
             if(Objects.equals(color, lastCard.color) || Objects.equals(value, lastCard.value) || Objects.equals(value, "+4") || Objects.equals(value, "colorchange")){
                 lastCard.color = color;
                 lastCard.value = value;
-                if(Objects.equals(value, "reverse")){
+                if(Objects.equals(value, Action.Reverse)){
                     this.reverse = !reverse;
                     clientTurnId++;
                     if(clientTurnId > clients.size()){
@@ -180,13 +183,13 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
                     this.broadcastCard(lastCard.color, lastCard.value);
                     return true;
                 }
-                if(Objects.equals(value, "skip")){
+                if(Objects.equals(value, Action.Skip)){
                     clientTurnId--;
                     if(clientTurnId < 1){
                         clientTurnId = clients.size();
                     }
                 }
-                if(Objects.equals(value, "+2")){
+                if(Objects.equals(value, Action.DrawTwo)){
                     boolean done = false;
                     int i = 1;
                     while(i <= clients.size()){
@@ -201,7 +204,7 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
                         clients.get(clients.size()-1).get2();
                     }
                 }
-                if(Objects.equals(value, "+4")){
+                if(Objects.equals(value, Action.DrawFour)){
                     boolean done = false;
                     int i = 1;
                     while(i <= clients.size()){
@@ -266,11 +269,5 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
                 clientTurnId = clients.size();
         }
         System.out.println("\n\n || Turno saltado, turno actual del cliente: " + clientTurnId+" ||\n\n");
-    }
-
-    public void run() {
-        
-    }
-    
-    
+    }  
 }

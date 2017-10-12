@@ -5,10 +5,27 @@
  */
 package andrey.UNO.Server;
 
+import java.util.Scanner;
+
 /**
  *
  * @author andrey
  */
-public class ConsoleView {
+public class ConsoleView implements IView {
     
+    public void enterCommand(){
+        Scanner scanner = new Scanner(System.in);
+        String command;
+        
+        while(true){
+            System.out.println("Enter a command:");
+            command = scanner.nextLine();
+        }    
+    }
+
+    public static void main(String[] args) {
+        ConsoleView console = new ConsoleView();
+        while(true)
+            console.enterCommand();
+    }
 }
