@@ -18,7 +18,7 @@ public class ServerDriver {
     public static void main(String[] args) throws RemoteException, MalformedURLException {
         try {
             
-            Naming.rebind("UNO", new Server());
+            Naming.rebind("UNO", new Server(new ConsoleView()));
             
         } catch (RemoteException ex) {ex.printStackTrace();}
     }

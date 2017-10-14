@@ -19,7 +19,7 @@ public class Card extends UnicastRemoteObject implements ICard {
     private static final long serialVersionUID = 1L;
     public String color;
     public String value;
-    public ArrayList<Card> cards = new ArrayList<Card>();
+    public ArrayList<Card> cards = new ArrayList<Card>(); //Arraylist with all possible cards
     
     
     public Card(String color, String value) throws RemoteException {
@@ -27,6 +27,7 @@ public class Card extends UnicastRemoteObject implements ICard {
         this.value = value;   
     }
 
+    //Create all possible cards
     public synchronized void createCards() throws RemoteException {
         
         for(int i = 0; i < 11; i++){
@@ -89,13 +90,14 @@ public class Card extends UnicastRemoteObject implements ICard {
             }
         }
         
-        Card c = (Card)new Card("black", "color");
+        Card c = (Card)new Card("black", "colorchange");
         cards.add(c);
         
         c = (Card)new Card("black", "+4");
         cards.add(c);
     }
     
+    //Returns a card to add to a deck
     public Card getCard() throws RemoteException {
         int randomNumber = ThreadLocalRandom.current().nextInt(0, cards.size());
         return cards.get(randomNumber);

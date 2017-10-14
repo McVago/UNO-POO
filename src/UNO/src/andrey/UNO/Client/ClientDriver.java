@@ -22,7 +22,7 @@ public class ClientDriver {
             
             String serverURL = "rmi://localhost/UNO";
             IServer server = (IServer) Naming.lookup(serverURL);
-            new Thread(new Client(server)).start();
+            new Thread(new Client(server, new ConsoleView())).start();
             
         } catch (RemoteException ex) {ex.printStackTrace();}
     }
