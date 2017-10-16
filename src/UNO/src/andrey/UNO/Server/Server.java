@@ -31,9 +31,17 @@ public class Server extends UnicastRemoteObject implements IServer, Action {
     protected Server(IView view) throws RemoteException {
         clients = new ArrayList<IClient>();
         lastCard.createCards();
-        lastCard = lastCard.getCard();
+        lastCard = setLastCard();
         this.view = view;
         System.out.println(lastCard.color + " " + lastCard.value);
+    }
+    
+    private Card setLastCard() throws RemoteException {
+        Card temp = lastCard.getCard();
+        if(temp.value == Action.ColorChange || temp.value == Action.DrawFour || temp.value == Action.DrawTwo || temp.value == Action.Reverse || temp.value == Action.Skip)
+            return setLastCard();
+        else
+            return temp;
     }
     
     //Register client into the arraylist clients and sets unique ID

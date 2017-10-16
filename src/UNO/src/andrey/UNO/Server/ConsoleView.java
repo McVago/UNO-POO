@@ -17,10 +17,8 @@ public class ConsoleView implements IView {
         Scanner scanner = new Scanner(System.in);
         String command;
         
-        while(true){
-            System.out.println("Enter a command:");
-            command = scanner.nextLine();
-        }    
+        System.out.println("Enter a command:");
+        command = scanner.nextLine();
     }
 
     public static void main(String[] args) {
