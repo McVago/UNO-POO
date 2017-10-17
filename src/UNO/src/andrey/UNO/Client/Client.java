@@ -123,6 +123,9 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
 
     //Run the thread for the clients
     public void run() {
+        view.show();
+        try{this.printCards();}
+        catch(Exception e){e.printStackTrace();}
         System.out.println("\nConnected, your ID is: " + ID + "\n");
         while(!playerWON) {
             try {

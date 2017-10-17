@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing;
+import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 /**
@@ -63,6 +63,9 @@ public class UIView extends javax.swing.JFrame implements IView {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1024, 764));
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1024, 764));
         getContentPane().setLayout(null);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/BlackColorchange.png"))); // NOI18N
@@ -105,7 +108,6 @@ public class UIView extends javax.swing.JFrame implements IView {
         });
         jPanel3.add(jButton5);
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/BlackColorchange.png"))); // NOI18N
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -113,7 +115,6 @@ public class UIView extends javax.swing.JFrame implements IView {
         });
         jPanel3.add(jButton6);
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/BlackColorchange.png"))); // NOI18N
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -289,8 +290,8 @@ public class UIView extends javax.swing.JFrame implements IView {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(5).color;
-        String value = cardList.get(5).value;
+        String color = cardList.get(4).color;
+        String value = cardList.get(4).value;
         try {
             client.sendCard(color, value);
         } catch (RemoteException ex) {
@@ -301,8 +302,8 @@ public class UIView extends javax.swing.JFrame implements IView {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(4).color;
-        String value = cardList.get(4).value;
+        String color = cardList.get(5).color;
+        String value = cardList.get(5).value;
         try {
             client.sendCard(color, value);
         } catch (RemoteException ex) {

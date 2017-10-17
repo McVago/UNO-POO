@@ -24,5 +24,7 @@ public interface IView {
     public void gameloop();
     
     public void gamewon();
+    
+    public void show();
  
 }
