@@ -22,6 +22,7 @@ public class UIView extends javax.swing.JFrame implements IView {
      * Creates new form UIView
      */
     public UIView() {
+        this.setLocation(500, 200);
         initComponents();
     }
 
@@ -63,10 +64,11 @@ public class UIView extends javax.swing.JFrame implements IView {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("UNO");
+        setAlwaysOnTop(true);
         setMinimumSize(new java.awt.Dimension(1024, 764));
-        setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1024, 764));
-        getContentPane().setLayout(null);
+        setResizable(false);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/BlackColorchange.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -215,17 +217,9 @@ public class UIView extends javax.swing.JFrame implements IView {
 
         jScrollPane1.setViewportView(jPanel3);
 
-        getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(140, 590, 660, 140);
-        getContentPane().add(lastCard);
-        lastCard.setBounds(470, 90, 60, 90);
-
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
-
-        getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(0, 160, 250, 430);
 
         jPanel1.setLayout(null);
 
@@ -234,8 +228,31 @@ public class UIView extends javax.swing.JFrame implements IView {
         jPanel1.add(jLabel2);
         jLabel2.setBounds(0, 0, 1030, 740);
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 1024, 741);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(220, 220, 220)
+                .addComponent(lastCard, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(140, 140, 140)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lastCard, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -549,6 +566,7 @@ public class UIView extends javax.swing.JFrame implements IView {
     public int buttonIndex = 0;
     public ArrayList<JButton> buttonList;
     public ArrayList<Card> cardList;
+    
     public void setClient(IClient client) {
         this.client = client;
         cardList = new ArrayList<>();

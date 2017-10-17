@@ -26,5 +26,9 @@ public interface IView {
     public void gamewon();
     
     public void show();
+    
+    public void setLocation(int x, int y);
+    
+    public void setVisible(boolean var);
  
 }

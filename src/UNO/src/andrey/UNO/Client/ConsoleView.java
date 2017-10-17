@@ -19,6 +19,12 @@ public class ConsoleView implements IView {
     public void show(){
     }
     
+    public void setLocation(int x, int y){
+    }
+    
+    public void setVisible(boolean var){
+    }
+    
     public void setClient(IClient client){
         this.client = client;
     }
