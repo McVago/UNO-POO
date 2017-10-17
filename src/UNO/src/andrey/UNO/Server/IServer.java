@@ -24,4 +24,7 @@ public interface IServer extends Remote {
     
     public void skipTurn() throws RemoteException;
     
+    public boolean testTurn(int ID) throws RemoteException;
+    
+    
 }

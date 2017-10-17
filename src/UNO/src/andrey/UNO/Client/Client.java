@@ -6,18 +6,18 @@
 package andrey.UNO.Client;
 
 import andrey.UNO.Card.Card;
+import andrey.UNO.Server.Action;
 import andrey.UNO.Server.IServer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Scanner;
 
 /**
  *
  * @author torre
  */
-public class Client extends UnicastRemoteObject implements IClient, Runnable {
+public class Client extends UnicastRemoteObject implements IClient, Runnable, Action {
     
     private static final long serialVersionUID = 1L;
     IServer server; //The server
@@ -33,7 +33,7 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
         this.server = server;
         for(int i = 0; i < 7; i++){ 
             deck.add(this.card.getCard());
-            System.out.println(deck.get(i).value + " " + deck.get(i).color);
+            //System.out.println(deck.get(i).value + " " + deck.get(i).color);
         }
         this.view = view;
         view.setClient(this);
@@ -53,8 +53,9 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     
     public void retrieveDeckCount(int playerID ,int cardsLeft) throws RemoteException {
         if(cardsLeft == 0){
-            System.out.println("\n\n || Player " + playerID + " has won!! || ");
+            //System.out.println("\n\n || Player " + playerID + " has won!! || ");
             playerWON = true;
+            view.receiveMessage("El jugador "+playerID+" ha ganado!");
         }
         view.retrieveDeckCount(playerID, cardsLeft);
     }
@@ -67,14 +68,18 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     //Tests the card to see if it is a valid move
     public boolean sendCard(String color, String value) throws RemoteException {
         boolean test = server.testCard(color, value, this.ID);
+        for(int i = 0; i < deck.size(); i++){
+            if(Objects.equals(value, deck.get(i).value) && Objects.equals(value, Action.DrawFour) || Objects.equals(value, deck.get(i).value) && Objects.equals(value, Action.ColorChange)){
+                deck.remove(i);
+                break;
+            }
+        }
         if(test){
             int i = 0;
             while(i < deck.size()){
-                if(Objects.equals(value, "+4") || Objects.equals(value, "colorchange")){
-                    if(Objects.equals(value, deck.get(i).value)){
-                        deck.remove(i);
-                        break;
-                    }
+                if(Objects.equals(value, deck.get(i).value) && Objects.equals(value, Action.DrawFour) || Objects.equals(value, deck.get(i).value) && Objects.equals(value, Action.ColorChange)){
+                    deck.remove(i);
+                    break;
                 }else{
                     if(Objects.equals(color, deck.get(i).color) && Objects.equals(value, deck.get(i).value)){
                         deck.remove(i);
@@ -100,21 +105,26 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
     public void get2() throws RemoteException {
         deck.add(card.getCard());
         deck.add(card.getCard());
+        view.clearButtonList();
+        view.clearCardList();
         this.printCards();
     }
     
     //Add a card to the deck
     public void getnewCard() throws RemoteException {
         deck.add(card.getCard());
+        view.clearButtonList();
+        view.clearCardList();
         this.printCards();
     }
     
     public void printCards() throws RemoteException {
-        System.out.println("\n Your Cards: ");
+        //System.out.println("\n Your Cards: ");
         for(int i = 0; i < deck.size(); i++){
+            //System.out.println(deck.get(i).value);
             view.printCards(deck.get(i).color, deck.get(i).value);
         }
-        System.out.println("\n\n");
+        //System.out.println("\n\n");
     }
     
     public void skipTurn() throws RemoteException {
@@ -135,5 +145,8 @@ public class Client extends UnicastRemoteObject implements IClient, Runnable {
                 view.gameloop();
             }catch(Exception e) {e.printStackTrace();}
         }
+    }
+    public boolean testTurn() throws RemoteException{
+        return server.testTurn(ID);
     }
 }

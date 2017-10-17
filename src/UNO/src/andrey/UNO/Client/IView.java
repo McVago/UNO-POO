@@ -27,8 +27,8 @@ public interface IView {
     
     public void show();
     
-    public void setLocation(int x, int y);
+    public void clearCardList();
     
-    public void setVisible(boolean var);
+    public void clearButtonList();
  
 }

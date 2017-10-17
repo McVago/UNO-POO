@@ -75,6 +75,14 @@ public class Server extends UnicastRemoteObject implements IServer, Action {
         }
     }
     
+    public void broadcastMessage(String color)throws RemoteException{
+        int i = 0;
+        while(i < clients.size()){
+            clients.get(i++).receiveMessage("El color es "+color);
+        }
+        
+    }
+    
     
    // Tests card, if it is a valid move, if reverse, if skip, if +2, if +4 
     public synchronized boolean testCard(String color, String value, int clientID) throws RemoteException {
@@ -137,6 +145,10 @@ public class Server extends UnicastRemoteObject implements IServer, Action {
                                 clients.get(0).get2();
                                 clients.get(0).get2();
                             }
+                            this.broadcastMessage(color);  
+                        }
+                        if(Objects.equals(value, Action.ColorChange)){
+                            this.broadcastMessage(color); 
                         }
                         clientTurnId++;
                         if(clientTurnId > clients.size()){
@@ -228,7 +240,11 @@ public class Server extends UnicastRemoteObject implements IServer, Action {
                         clients.get(clients.size()-1).get2();
                         clients.get(clients.size()-1).get2();
                     }
+                    this.broadcastMessage(color);
                 }
+                if(Objects.equals(value, Action.ColorChange)){
+                        this.broadcastMessage(color); 
+                    }
                 clientTurnId--;
                 if(clientTurnId < 1){
                     clientTurnId = clients.size();
@@ -277,5 +293,8 @@ public class Server extends UnicastRemoteObject implements IServer, Action {
                 clientTurnId = clients.size();
         }
         System.out.println("\n\n || Turno saltado, turno actual del cliente: " + clientTurnId+" ||\n\n");
-    }  
+    }
+    public boolean testTurn(int ID) throws RemoteException{
+        return ID==clientTurnId;
+    }
 }

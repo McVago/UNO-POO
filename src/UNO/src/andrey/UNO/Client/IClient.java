@@ -32,4 +32,6 @@ public interface IClient extends Remote {
     
     public boolean sendCard(String color, String value) throws RemoteException;
     
+    public boolean testTurn() throws RemoteException;
+    
 }

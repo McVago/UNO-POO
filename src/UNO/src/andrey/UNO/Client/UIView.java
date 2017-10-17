@@ -7,16 +7,17 @@ package andrey.UNO.Client;
 import andrey.UNO.Card.Card;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
+import andrey.UNO.Server.Action;
 /**
  *
  * @author andrey
  */
-public class UIView extends javax.swing.JFrame implements IView {
+public class UIView extends javax.swing.JFrame implements IView, Action {
 
     /**
      * Creates new form UIView
@@ -35,6 +36,12 @@ public class UIView extends javax.swing.JFrame implements IView {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        messageLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton23 = new javax.swing.JButton();
+        jButton24 = new javax.swing.JButton();
+        jButton25 = new javax.swing.JButton();
+        jButton26 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -60,15 +67,57 @@ public class UIView extends javax.swing.JFrame implements IView {
         lastCard = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jButton21 = new javax.swing.JButton();
+        jButton22 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UNO");
-        setAlwaysOnTop(true);
         setMinimumSize(new java.awt.Dimension(1024, 764));
         setPreferredSize(new java.awt.Dimension(1024, 764));
-        setResizable(false);
+        getContentPane().setLayout(null);
+
+        messageLabel.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        messageLabel.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(messageLabel);
+        messageLabel.setBounds(290, 380, 720, 60);
+
+        jButton23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Blue0.png"))); // NOI18N
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton23);
+
+        jButton24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Red0.png"))); // NOI18N
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton24ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton24);
+
+        jButton25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Green0.png"))); // NOI18N
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton25);
+
+        jButton26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Yellow0.png"))); // NOI18N
+        jButton26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton26ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton26);
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(280, 460, 410, 110);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/BlackColorchange.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -217,9 +266,41 @@ public class UIView extends javax.swing.JFrame implements IView {
 
         jScrollPane1.setViewportView(jPanel3);
 
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(140, 590, 660, 140);
+        getContentPane().add(lastCard);
+        lastCard.setBounds(470, 90, 60, 90);
+
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(0, 160, 250, 430);
+
+        jButton21.setText("Comer Carta");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton21);
+        jButton21.setBounds(840, 640, 150, 35);
+
+        jButton22.setText("Saltar Turno");
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton22);
+        jButton22.setBounds(840, 680, 150, 35);
+
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("<- Solo para cambiar de color o +4");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(730, 470, 280, 80);
 
         jPanel1.setLayout(null);
 
@@ -228,274 +309,510 @@ public class UIView extends javax.swing.JFrame implements IView {
         jPanel1.add(jLabel2);
         jLabel2.setBounds(0, 0, 1030, 740);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(220, 220, 220)
-                .addComponent(lastCard, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lastCard, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 1024, 741);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(1).color;
         String value = cardList.get(1).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            cardList.remove(1);
+            color = colorBase;
+        }
+        else{
+            color = cardList.get(1).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(0).color;
         String value = cardList.get(0).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(0);
+        }
+        else{
+            color = cardList.get(0).color;
+        }
+        
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(2).color;
         String value = cardList.get(2).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(2);
+        }
+        else{
+            color = cardList.get(2).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(3).color;
         String value = cardList.get(3).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(3);
+        }
+        else{
+            color = cardList.get(3).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(4).color;
         String value = cardList.get(4).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(4);
+        }
+        else{
+            color = cardList.get(4).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(5).color;
         String value = cardList.get(5).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(5);
+        }
+        else{
+            color = cardList.get(5).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(6).color;
         String value = cardList.get(6).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(6);
+        }
+        else{
+            color = cardList.get(6).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(7).color;
         String value = cardList.get(7).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(7);
+        }
+        else{
+            color = cardList.get(7).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(8).color;
         String value = cardList.get(8).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(8);
+        }
+        else{
+            color = cardList.get(8).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(9).color;
         String value = cardList.get(9).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(9);
+        }
+        else{
+            color = cardList.get(9).color;
+        }
         try {
-            client.sendCard(color, value);
+            played =  client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(10).color;
         String value = cardList.get(10).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(10);
+        }
+        else{
+            color = cardList.get(10).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(11).color;
         String value = cardList.get(11).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(11);
+        }
+        else{
+            color = cardList.get(11).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(12).color;
         String value = cardList.get(12).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(12);
+        }
+        else{
+            color = cardList.get(12).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(13).color;
         String value = cardList.get(13).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(13);
+        }
+        else{
+            color = cardList.get(13).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(14).color;
         String value = cardList.get(14).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(14);
+        }
+        else{
+            color = cardList.get(14).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(15).color;
         String value = cardList.get(15).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(15);
+        }
+        else{
+            color = cardList.get(15).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(16).color;
         String value = cardList.get(16).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(16);
+        }
+        else{
+            color = cardList.get(16).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(17).color;
         String value = cardList.get(17).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(17);
+        }
+        else{
+            color = cardList.get(17).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(18).color;
         String value = cardList.get(18).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(18);
+        }
+        else{
+            color = cardList.get(18).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         // TODO add your handling code here:
-        String color = cardList.get(19).color;
         String value = cardList.get(19).value;
+        String color;
+        if (Objects.equals(value, "+4") || Objects.equals(value, "Colorchange")){
+            color = colorBase;
+            cardList.remove(19);
+        }
+        else{
+            color = cardList.get(19).color;
+        }
         try {
-            client.sendCard(color, value);
+            played = client.sendCard(color, value);
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gameloop2();
+        try {
+            gameloop2();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        try {
+            // TODO add your handling code here:
+            client.getnewCard();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        try {
+            // TODO add your handling code here:
+            client.skipTurn();
+        } catch (RemoteException ex) {
+            Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        // TODO add your handling code here:
+        colorBase = "Blue";
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        // TODO add your handling code here:
+        colorBase = "Red";
+    }//GEN-LAST:event_jButton24ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        // TODO add your handling code here:
+        colorBase = "Green";
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        // TODO add your handling code here:
+        colorBase = "Yellow";
+    }//GEN-LAST:event_jButton26ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -546,6 +863,12 @@ public class UIView extends javax.swing.JFrame implements IView {
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -553,19 +876,24 @@ public class UIView extends javax.swing.JFrame implements IView {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lastCard;
+    private javax.swing.JLabel messageLabel;
     // End of variables declaration//GEN-END:variables
 
     IClient client;
     public int buttonIndex = 0;
     public ArrayList<JButton> buttonList;
     public ArrayList<Card> cardList;
+    public boolean played;
+    public String colorBase = "Red";
     
     public void setClient(IClient client) {
         this.client = client;
@@ -595,7 +923,10 @@ public class UIView extends javax.swing.JFrame implements IView {
     }
 
     public void retrieveCard(String color, String value) {
-        lastCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/" + color + value +".png")));
+        if(Objects.equals(value, Action.DrawFour))
+            lastCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Black" + value +".png")));
+        else
+            lastCard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/" + color + value +".png")));
     }
 
     public void retrieveDeckCount(int playerID, int cardsLeft){
@@ -604,7 +935,7 @@ public class UIView extends javax.swing.JFrame implements IView {
     }
 
     public void receiveMessage(String message) {
-        JOptionPane.showMessageDialog(null, message);
+        messageLabel.setText(message);
     }
 
     public void printCards(String color, String value) {
@@ -613,21 +944,39 @@ public class UIView extends javax.swing.JFrame implements IView {
         } catch (RemoteException ex) {
             Logger.getLogger(UIView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        buttonList.get(buttonIndex++).setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/" + color + value +".png")));
+        buttonList.get(buttonIndex).setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/" + color + value +".png")));
+        buttonIndex++;
         
     }
-
+    
+    public void clearCardList(){
+        cardList.clear();
+    }
+    
+    public void clearButtonList(){
+        for(int i = 0; i<buttonList.size(); i++){
+            buttonList.get(i).setIcon(null);
+        }
+        buttonIndex = 0;
+    }
     public void gameloop() {
 
     }
     
-    public void gameloop2(){
-        cardList.clear();
-        buttonIndex = 0;
+    public void gameloop2() throws RemoteException{
+        if (played){
+            for(int i = 0; i<buttonList.size(); i++){
+                buttonList.get(i).setIcon(null);
+            }
+            cardList.clear();
+            buttonIndex = 0;
+            client.printCards();
+        }
+        
     }
 
     public void gamewon() {
-        JOptionPane.showMessageDialog(null, "You won !!");
+        messageLabel.setText("Felicidades has ganado malparido");
     }
 }
 

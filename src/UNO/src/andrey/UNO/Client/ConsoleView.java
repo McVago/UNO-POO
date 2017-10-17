@@ -16,13 +16,15 @@ public class ConsoleView implements IView {
         
     IClient client;
     
+    public void clearCardList(){
+        
+    }
+    
+    public void clearButtonList(){
+        
+    }
+    
     public void show(){
-    }
-    
-    public void setLocation(int x, int y){
-    }
-    
-    public void setVisible(boolean var){
     }
     
     public void setClient(IClient client){
