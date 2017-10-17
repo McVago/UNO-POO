@@ -33,14 +33,14 @@ public class Card extends UnicastRemoteObject implements ICard {
         for(int i = 0; i < 11; i++){
             String value = Integer.toString(i);
             if(i < 10){
-                Card c = (Card)new Card("red", value);
+                Card c = (Card)new Card("Red", value);
                 cards.add(c);
             }else{
-                Card c = (Card)new Card("red", "skip");
+                Card c = (Card)new Card("Red", "Skip");
                 cards.add(c);
-                c = (Card)new Card("red", "reverse");
+                c = (Card)new Card("Red", "Reverse");
                 cards.add(c);
-                c = (Card)new Card("red", "+2");
+                c = (Card)new Card("Red", "+2");
                 cards.add(c);
             }
         }
@@ -48,14 +48,14 @@ public class Card extends UnicastRemoteObject implements ICard {
         for(int i = 0; i < 11; i++){
             String value = Integer.toString(i);
             if(i < 10){
-                Card c = (Card)new Card("yellow", value);
+                Card c = (Card)new Card("Yellow", value);
                 cards.add(c);
             }else{
-                Card c = (Card)new Card("yellow", "skip");
+                Card c = (Card)new Card("Yellow", "Skip");
                 cards.add(c);
-                c = (Card)new Card("yellow", "reverse");
+                c = (Card)new Card("Yellow", "Reverse");
                 cards.add(c);
-                c = (Card)new Card("yellow", "+2");
+                c = (Card)new Card("Yellow", "+2");
                 cards.add(c);
             }
         }
@@ -63,14 +63,14 @@ public class Card extends UnicastRemoteObject implements ICard {
         for(int i = 0; i < 11; i++){
             String value = Integer.toString(i);
             if(i < 10){
-                Card c = (Card)new Card("green", value);
+                Card c = (Card)new Card("Green", value);
                 cards.add(c);
             }else{
-                Card c = (Card)new Card("green", "skip");
+                Card c = (Card)new Card("Green", "Skip");
                 cards.add(c);
-                c = (Card)new Card("green", "reverse");
+                c = (Card)new Card("Green", "Reverse");
                 cards.add(c);
-                c = (Card)new Card("green", "+2");
+                c = (Card)new Card("Green", "+2");
                 cards.add(c);
             }
         }
@@ -78,22 +78,22 @@ public class Card extends UnicastRemoteObject implements ICard {
         for(int i = 0; i < 11; i++){
             String value = Integer.toString(i);
             if(i < 10){
-                Card c = (Card)new Card("blue", value);
+                Card c = (Card)new Card("Blue", value);
                 cards.add(c);
             }else{
-                Card c = (Card)new Card("blue", "skip");
+                Card c = (Card)new Card("Blue", "Skip");
                 cards.add(c);
-                c = (Card)new Card("blue", "reverse");
+                c = (Card)new Card("Blue", "Reverse");
                 cards.add(c);
-                c = (Card)new Card("blue", "+2");
+                c = (Card)new Card("Blue", "+2");
                 cards.add(c);
             }
         }
         
-        Card c = (Card)new Card("black", "colorchange");
+        Card c = (Card)new Card("Black", "Colorchange");
         cards.add(c);
         
-        c = (Card)new Card("black", "+4");
+        c = (Card)new Card("Black", "+4");
         cards.add(c);
     }
     

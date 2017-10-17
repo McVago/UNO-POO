@@ -12,8 +12,8 @@ package andrey.UNO.Server;
 public interface Action {
     String DrawFour = "+4";
     String DrawTwo = "+2";
-    String Skip = "skip";
-    String Reverse = "reverse";
-    String ColorChange = "colorchange";
+    String Skip = "Skip";
+    String Reverse = "Reverse";
+    String ColorChange = "Colorchange";
     
 }
